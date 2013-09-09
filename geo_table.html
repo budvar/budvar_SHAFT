@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+            function getgeoTxt() {
+                var geo = new XMLHttpRequest();
+                geo.open("GET", "http://localhost:34349/default.geometry-dc.txt", false);
+                geo.send(null);
+                if (geo.readyState == 4 && geo.status == 200) {
+                    var txtRet = geo.responseText.split('\n');
+                    var blockCount1 = txtRet[2].split(/ +/);
+                    var blockCount2 = parseInt(blockCount1[0]);
+                    var colNames = txtRet[3];
+                    var colHead = colNames.split(/ +/);
+                    document.getElementById("headers").innerHTML = ("<th>" + colHead[0] + "</th><th>" + colHead[1] + "</th><p><th>" + colHead[2] + "</th><th>" + colHead[3] + "</th><th>" + colHead[4] + "</th><th>" + colHead[5] + "</th>");
+                    document.getElementById("test").innerHTML = txtRet.length;
+                    var juncBlock1 = txtRet.slice(4, blockCount2 + 4);
+                    //var juncBlock2 = juncBlock1.split(/ +/);
+                    //line 21 was throwing error bc juncBlock2 is an array, split only works on string (i.e. will work on individual array elements)
+                    var juncBlock2 = juncBlock1[0].split(/ +/);
+                    //var juncMeat = juncBlock2.split(/ +/);
+                    document.getElementById("test2").innerHTML = juncBlock2[2];
+                    //for (i = 0; i < txtRet.length - 1; i++) {
+                    //}
+                }
+            }
+            window.onload = getgeoTxt;
+        </script>
+    </head> 
+    <body>
+        <div id="test"></div><br>
+        <div id="test2"></div><br>
+        <table border="1">
+            <tr id="headers"></tr>
+        </table>
+    </body>
+</html>

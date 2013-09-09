@@ -1,0 +1,90 @@
+NSV5 Geometry Input Example  - save as space-
+
+28 Junctions
+JN      Width   Invert  Ground  Sense   Name
+1       20.0    -25.51  3.75    0       CSO_019-S_DS   
+2       0.0     -27.01  4.57   -1       no_shaft-CSO_018
+3       0.0     -27.32  4.57   -2       no_shaft-CSO_016/17
+4       14.0    -28.27  4.88   -3       CSO_005/007
+5       21.0    -30.07  3.96   -4       PP-JS
+6       15.0    -32.78  5.49   -5       BAFB-DS
+7       18.0    -36.58  6.16   -6       BP_TDPS
+8       9.0     -24.48   6.1   -7       CSO_018-DS
+9       8.0     -24.41 11.89   -8       CSO_016-DS
+10      12.0    -24.83  9.45   -9       CSO_017-DS
+11      14.0    -28.66  3.02   10       MPS-DS
+12      8.0       3.73 23.16   11       RS DS
+13      12.0      2.04 22.62   12       RS-JS
+14      20.0     -4.75 48.07   13       BR-JS
+15      15.0     -7.64 21.34   14       MOR-DS
+16      20.0    -25.46  3.75   15       CSO_019-N_DS
+17      2.0       3.25 36.27   20       AS-DS
+18      2.0       2.91 29.26   19       VS-DS
+19      9.0       2.35 34.47   18       3S-DS
+20      9.0       1.84 31.09   17       RIA-DS
+21      6.0       14.2 21.34   16       GS-DC
+22      6.0      13.63 21.34   15       CA-JC
+23      6.0       4.65 22.62   14       DIV_O2
+24      6.0       4.26 22.62   13       DIV_O1
+25      6.0        3.8 22.62   12       DIV_O3
+26      6.0       4.25 31.09   11       DIV_I4
+27      6.0        3.7 31.09   10       DIV_I3
+28      6.0       3.88 31.09    9       DIV_I5
+
+27 Reaches
+RN      From J  From InvtoJ     To Inv  Length  DiameterOrientation
+1        1  -25.51       2  -27.01 1241.76    7.01 R
+2        2  -27.01       3  -27.32  259.69    7.01 R
+3        3  -27.32       4  -28.27  796.75    7.01 R
+4        4  -28.27       5  -30.07 1502.05    7.01 R
+5        5  -30.07       6  -32.78 2462.17    7.01 R
+6        6  -32.78       7  -36.58 3448.51    7.01 R
+7        8  -24.48       2  -24.57   91.44    2.44 L
+8        9  -24.41      10  -24.83  417.27    4.57 L
+9       10  -24.83       3  -24.88   52.73    4.57 L
+10      11  -28.66       5  -30.07 1284.12    7.01 L
+11      12    3.73      13    2.04  678.48    4.57 R
+12      13    2.04      14   -2.31 1738.27    4.57 R
+13      14   -4.75      15   -7.64  643.13    7.01 R
+14      15   -7.64      16  -25.46 3959.35    7.01 R
+15      16  -25.46       1  -25.51   47.24    7.01 R
+16      17    3.25      18    2.91  238.05    4.57 L
+17      18    2.91      13    2.04  625.75    4.57 L
+18      19    2.35      20    1.84  154.53    4.57 L
+19      20    1.84      14   -2.31 1256.08    4.57 L
+20      21    14.2      22   13.63   266.7    2.59 L
+21      22   13.63      15    9.99   16.46    3.66 L
+22      23    4.65      24    4.26  389.23    3.66 L
+23      24    4.26      25     3.8  459.03    3.66 L
+24      25     3.8      13    2.95  849.17    3.66 L
+25      26    4.25      27     3.7  544.07    3.66 L
+26      27     3.7      19    2.35  442.57    3.66 L
+27      28    3.88      20    2.75 1127.15    3.66 L
+
+9 Sections
+23 Elements (laid out right to left negative for junction, positive for reach - main Tunnel)
+     -12      11     -13      12     -14      13     -15      14     -16      15      -1       1      -2       2      -3       3      -4       4      -5       5      -6       6      -7
+3 Elements (laid out right to left negative for junction, positive for reach - Spur Tunnel CSO18)
+      -2       7      -8
+5 Elements (laid out right to left negative for junction, positive for reach - Spur Tunnel CSO15-17)
+      -3       9     -10       8      -9
+3 Elements (laid out right to left negative for junction, positive for reach - Spur Tunnel CSO9-14)
+     -5      10      -11
+5 Elements (laid out right to left negative for junction, positive for reach - Spur Tunnel AS-DS / VS-DS)
+     -13      17     -18      16     -17
+7 Elements (laid out right to left negative for junction, positive for reach - Spur Tunnel DivOx)
+     -13      24     -25      23     -24      22     -23
+5 Elements (laid out right to left negative for junction, positive for reach - Spur Tunnel DivIx1)
+     -14      19     -20      27     -28
+7 Elements (laid out right to left negative for junction, positive for reach - Spur Tunnel DivIx2)
+     -20      18     -19      26     -27      25     -26
+5 Elements (laid out right to left negative for junction, positive for reach - Spur Tunnel DivBx)
+     -15      21     -22      20     -21
+
+Xmin, XMax, Ymin, YMax
+17000  0   -50  50
+
+Critical Elevations - one for each junction
+1.79    4.57    4.57    1.29    3.96    1.94    6.16    4.46    6.76    5.73    0.79   19.83   20.04   48.07   21.34    3.75   28.97   25.76   30.54   27.78   13.63   16.36   22.62   22.62   22.62   31.09   31.09   31.09
+
+0

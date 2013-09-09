@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--references fabric.js code to enable part 1 of this example-->
+        <meta charset="utf-8">
+        <!--path for local fabric.js file on Brad's notebook-->
+        <!--script type="text/javascript" src="fabric/all.js"></script>-->
+        <script type="text/javascript" src="https://rawgithub.com/kangax/fabric.js/master/dist/all.js"></script>
+    </head>
+    <body>
+        <canvas id="blank" width="600" height="400" style="border:1px solid #abc"></canvas>
+        <!--The following script uses fabric.js to automatically draw a (BLUE) triangle-->
+        <script>
+            var fabricTest = function() {
+                var canvas = new fabric.Canvas('blank'); 
+                var triangle = new fabric.Triangle({ top: 150, left: 150, width: 100, height: 100, fill: 'blue'});
+                canvas.add(triangle);
+            };
+            fabricTest();
+        </script>
+        <!--This script does not rely on fabric, it uses only canvas to draw a (RED) triangle-->
+        <script>
+            var canvasTest = function() {
+                var elem = document.getElementById('blank');
+                var context = elem.getContext('2d');
+                if (context) {
+                    context.beginPath();
+                    context.moveTo(300,300);
+                    context.lineTo(350,200);
+                    context.lineTo(400,300);
+                    context.fillStyle = 'red';
+                    context.fill();
+                }
+            };    
+            canvasTest();    
+        </script>
+        <!---This HTML/XML below tests the SVG capabilities that are built into HTML5, by drawing a (GREEN) triangle-->
+        <svg width="400" height="400" viewBox="0 700 400 400" xmlns="http://www.w3.org/2000/svg" version="1.1">
+            <path d="M 100 900 L 150 800 L 200 900 z" fill="green" /></svg>
+    </body>
+</html>
