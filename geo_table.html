@@ -2,36 +2,100 @@
 <html>
     <head>
         <script type="text/javascript">
+            //this function reads the geometry file and parses it for display in several tables
             function getgeoTxt() {
                 var geo = new XMLHttpRequest();
-                geo.open("GET", "http://localhost:34349/default.geometry-dc.txt", false);
+                geo.open("GET", "http://localhost:46633/default.geometry-dc.txt", false);
                 geo.send(null);
                 if (geo.readyState == 4 && geo.status == 200) {
+                    //discovers length of each block in txt file
                     var txtRet = geo.responseText.split('\n');
-                    var blockCount1 = txtRet[2].split(/ +/);
-                    var blockCount2 = parseInt(blockCount1[0]);
-                    var colNames = txtRet[3];
-                    var colHead = colNames.split(/ +/);
-                    document.getElementById("headers").innerHTML = ("<th>" + colHead[0] + "</th><th>" + colHead[1] + "</th><p><th>" + colHead[2] + "</th><th>" + colHead[3] + "</th><th>" + colHead[4] + "</th><th>" + colHead[5] + "</th>");
-                    document.getElementById("test").innerHTML = txtRet.length;
-                    var juncBlock1 = txtRet.slice(4, blockCount2 + 4);
-                    //var juncBlock2 = juncBlock1.split(/ +/);
-                    //line 21 was throwing error bc juncBlock2 is an array, split only works on string (i.e. will work on individual array elements)
-                    var juncBlock2 = juncBlock1[0].split(/ +/);
-                    //var juncMeat = juncBlock2.split(/ +/);
-                    document.getElementById("test2").innerHTML = juncBlock2[2];
-                    //for (i = 0; i < txtRet.length - 1; i++) {
-                    //}
+                    var juncCount1 = txtRet[2].split(/ +/);
+                    var juncCount2 = parseInt(juncCount1[0]);
+                    var reachCount1 = txtRet[(juncCount2 + 5)].split('\n');
+                    var reachCount2 = parseInt(reachCount1[0]);
+                    var sectCount1 = txtRet[(juncCount2 + reachCount2 + 8)].split('\n');
+                    var sectCount2 = parseInt(sectCount1[0]);
+                    //discovers and writes block header names
+                    var juncColNames = txtRet[3];
+                    var juncColHead = juncColNames.split(/ +/);
+                    document.getElementById("juncTab").innerHTML = ("<th>" + juncColHead[0] + "</th><th>" + juncColHead[1] + "</th><th>" +
+                        juncColHead[2] + "</th><th>" + juncColHead[3] + "</th><th>" + juncColHead[4] + "</th><th>" + juncColHead[5] + "</th>");
+                    var reachColNames = txtRet[(reachCount2 + 7)];
+                    var reachColHead = reachColNames.split(/ +/);
+                    document.getElementById("reachTab").innerHTML = ("<th>" + reachColHead[0] + "</th><th>" + reachColHead[1] + "</th><th>" +
+                        reachColHead[2] + "</th><th>" + reachColHead[3] + "</th><th>" + reachColHead[4] + "</th><th>" + reachColHead[5] +
+                        "</th><th>" + reachColHead[6] + "</th><th>" + reachColHead[7] + "</th>");
+                    //defines extent of blocks
+                    var juncBlock1 = txtRet.slice(4, juncCount2 + 4);
+                    var reachBlock1 = txtRet.slice((juncCount2 + 7), (juncCount2 + reachCount2 + 7));
+                    var sectBlock1 = txtRet.slice((juncCount2 + reachCount2 + 9), (juncCount2 + reachCount2 + sectCount2 * 2 + 9));
+                    //defines new arrays for junction block
+                    var juncNum = [];
+                    var juncWidth = [];
+                    var juncInvert = [];
+                    var juncGround = [];
+                    var juncSense = [];
+                    var juncName = [];
+                    //steps through each line in the junction block, populates each array
+                    for (i = 0; i < juncBlock1.length; i++) {
+                        var juncBlock2 = juncBlock1[i].split(/ +/);
+                        juncNum.push(juncBlock2[0]);
+                        juncWidth.push(juncBlock2[1]);
+                        juncInvert.push(juncBlock2[2]);
+                        juncGround.push(juncBlock2[3]);
+                        juncSense.push(juncBlock2[4]);
+                        juncName.push(juncBlock2[5]);
+                        document.getElementById("juncTab").innerHTML += ("<tr><td>" + juncNum[i] + "</td><td>" + juncWidth[i] + "</td><td>" +
+                            juncInvert[i] + "</td><td>" + juncGround[i] + "</td><td>" + juncSense[i] + "</td><td>" + juncName[i] + "</td></tr>");
+                    }
+                    //defines new arrays for reach block
+                    var reachRN = [];
+                    var reachFromJ = [];
+                    var reachFromInv = [];
+                    var reachToJ = [];
+                    var reachToInv = [];
+                    var reachLength = [];
+                    var reachDiameter = [];
+                    var reachOrientation = [];
+                    //steps through each line in the junction block, populates each array
+                    for (i = 0; i < reachBlock1.length; i++) {
+                        var reachBlock2 = reachBlock1[i].split(/ +/);
+                        reachRN.push(reachBlock2[0]);
+                        reachFromJ.push(reachBlock2[1]);
+                        reachFromInv.push(reachBlock2[2]);
+                        reachToJ.push(reachBlock2[3]);
+                        reachToInv.push(reachBlock2[4]);
+                        reachLength.push(reachBlock2[5]);
+                        reachDiameter.push(reachBlock2[6]);
+                        reachOrientation.push(reachBlock2[7]);
+                        document.getElementById("reachTab").innerHTML += ("<tr><td>" + reachRN[i] + "</td><td>" + reachFromJ[i] + "</td><td>" +
+                            reachFromInv[i] + "</td><td>" + reachToJ[i] + "</td><td>" + reachToInv[i] + "</td><td>" + reachLength[i] + "</td><td>" +
+                            reachDiameter[i] + "</td><td>" + reachOrientation[i] + "</td></tr>");
+                    }
+                    //defines new arrays for section block (different procedure when compared to other blocks, need to use nested? array)
+                    var sectDef = [];
+                    var j = 0
+                    for (i = 1; i < sectBlock1.length; i = i + 2) {
+                        sectDef[j] = sectBlock1[i].split(/ +/);
+                        j = j + 1;
+                    }
+                    document.getElementById("vartest").innerHTML = sectDef[8][1];
                 }
             }
             window.onload = getgeoTxt;
         </script>
     </head> 
     <body>
-        <div id="test"></div><br>
-        <div id="test2"></div><br>
+        <div id="vartest"></div>
         <table border="1">
-            <tr id="headers"></tr>
+            <tbody id="juncTab">
+            </tbody>
+        </table>
+        <br>
+        <table border="1">
+            <tbody id="reachTab">
+            </tbody>
         </table>
     </body>
 </html>
