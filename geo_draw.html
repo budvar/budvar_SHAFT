@@ -2,8 +2,9 @@
 <html>
     <head>
         <script type="text/javascript">
-            //this function reads the geometry file and parses it for display in several tables
-            function getgeoTxt() {
+            //this function reads the geometry file, parses it, draws elements on canvas, displays in several tables
+            function geoDraw() {
+                //reads in geometry file
                 var geo = new XMLHttpRequest();
                 geo.open("GET", "http://localhost:16628/default.geometry-dc.txt", false);
                 geo.send(null);
@@ -58,7 +59,7 @@
                     var reachLength = [];
                     var reachDiameter = [];
                     var reachOrientation = [];
-                    //steps through each line in the junction block, populates each array
+                    //steps through each line in the reach block, populates each array
                     for (i = 0; i < reachBlock1.length; i++) {
                         var reachBlock2 = reachBlock1[i].split(/ +/);
                         reachRN.push(reachBlock2[0]);
@@ -80,13 +81,49 @@
                         sectDef[j] = sectBlock1[i].split(/ +/);
                         j = j + 1;
                     }
-                    document.getElementById("vartest").innerHTML = sectDef[8][1];
+                }
+                document.getElementById("vartest").innerHTML = juncWidth[1];
+                //establishes canvas and draws elements
+                var art = document.getElementById("space").getContext("2d");
+                if (art) {
+                    art.translate(0, 100);
+                    art.scale(0.05, -1.25);
+                    var xLoc = 0;
+                    //step through one junction-reach section example
+                    for (i = (sectDef[0].length - 1); i > 0; i--) {
+                        var sectNum = parseInt(sectDef[0][i]);
+                        if (sectNum < 0) {
+                            if (juncWidth[-sectNum - 1] == 0) {
+                                art.lineWidth = 1;
+                            } else {
+                                art.lineWidth = juncWidth[-sectNum - 1];
+                                art.beginPath();
+                                art.moveTo(xLoc, juncInvert[-sectNum - 1]);
+                                art.lineTo(xLoc, juncGround[-sectNum - 1]);
+                                art.strokeStyle = "rgb(0,0,255)";
+                                art.stroke();
+                                xLoc = xLoc + art.lineWidth;
+                                alert(juncName[-sectNum - 1]);
+                            }
+                        } else {
+                            art.lineWidth = reachDiameter[sectNum-1];
+                            art.beginPath();
+                            art.moveTo(xLoc, reachToInv[sectNum-1]);
+                            xLoc = xLoc + parseFloat(reachLength[sectNum-1]);
+                            art.lineTo(xLoc, reachFromInv[sectNum-1]);
+                            art.strokeStyle = "rgb(255,0,0)";
+                            art.stroke();
+                            alert(reachRN[sectNum-1]);
+                        }
+                    }
                 }
             }
-            window.onload = getgeoTxt;
+            window.onload = geoDraw;
         </script>
     </head> 
     <body>
+        <canvas id="space" width="1200" height="200" style="border:1px solid #abc"></canvas>
+        <br>
         <div id="vartest"></div>
         <table border="1">
             <tbody id="juncTab">
