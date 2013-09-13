@@ -70,15 +70,15 @@
                 //establishes canvas and draws elements
                 var art = document.getElementById("space").getContext("2d");
                 if (art) {
-                    art.translate(0, 100);
-                    art.scale(0.05, -1.25);
-                    var xLoc = 0;
+                    art.translate(1200, 200);
+                    art.scale(-0.06, -3.5);
+                    var xLoc = 1500;
                     var juncX = [];
                     //steps through sections
-                    for (y = 0; y < sectDef.length - 1; y++) {
+                    document.getElementById("sectTab").innerHTML += ("<th>section</th><th>reach/junction #</th><th>junction name</th><th>j inv</th><th>from invert</th><th>to invert</th><th>xLoc</th>")
+                    for (y = 0; y < sectDef.length; y++) {
                         //steps through each junction-reach section
-                        for (i = (sectDef[y].length - 1); i > 0; i--) {
-                            alert(sectDef[y][i]);
+                        for (i = 1; i < sectDef[y].length; i++) {
                             var sectNum = parseInt(sectDef[y][i]);
                             if (sectNum < 0) {
                                 //establishes x-coordinate for junction, necessary for drawing different sections
@@ -95,24 +95,56 @@
                                 art.moveTo(juncX[-sectNum - 1], parseFloat(juncInvert[-sectNum - 1]));
                                 art.lineTo(juncX[-sectNum - 1], parseFloat(juncGround[-sectNum - 1]));
                                 art.strokeStyle = "rgb(0,0,255)";
-                                alert(juncName[-sectNum - 1]);
                                 art.stroke();
                                 xLoc = juncX[-sectNum - 1] + 0.5 * art.lineWidth;
-                                document.getElementById("sectTab").innerHTML += ("<th>junction #</th><th>junction name</th><th>x-coord</th><tr><td>" + juncNum[-sectNum - 1] + "</td><td>" +
-                                    juncName[-sectNum - 1] + "</td><td>" + juncX[-sectNum - 1] + "</td></tr>");
+                                document.getElementById("sectTab").innerHTML += ("<tr><td>" + (y + 1) + "</td><td>" + juncNum[-sectNum - 1] + "</td><td>" + juncName[-sectNum - 1] + "</td><td>" +
+                                    juncInvert[-sectNum - 1] + "</td><td></td><td></td><td>" + xLoc + "</td></tr>");
                             } else {
                                 //draws reaches
                                 art.lineWidth = reachDiameter[sectNum - 1];
                                 art.beginPath();
-                                art.moveTo(xLoc, parseFloat(reachToInv[sectNum - 1]) + parseFloat(reachDiameter[sectNum - 1]) * 0.5);
                                 //checks reach orientation
                                 if (reachOrientation[sectNum - 1].slice(0, 1) === "R") {
+                                    art.moveTo(xLoc, parseFloat(reachFromInv[sectNum - 1]) + parseFloat(reachDiameter[sectNum - 1]) * 0.5);
                                     xLoc = xLoc + parseFloat(reachLength[sectNum - 1]);
+                                    art.lineTo(xLoc, parseFloat(reachToInv[sectNum - 1]) + parseFloat(reachDiameter[sectNum - 1]) * 0.5);
                                 } else {
-                                    xLoc = xLoc - parseFloat(reachLength[sectNum - 1]);
+                                    art.moveTo(xLoc, parseFloat(reachToInv[sectNum - 1]) + parseFloat(reachDiameter[sectNum - 1]) * 0.5);
+                                    xLoc = xLoc + parseFloat(reachLength[sectNum - 1]);
+                                    art.lineTo(xLoc, parseFloat(reachFromInv[sectNum - 1]) + parseFloat(reachDiameter[sectNum - 1]) * 0.5);
                                 }
-                                art.lineTo(xLoc, parseFloat(reachFromInv[sectNum - 1]) + parseFloat(reachDiameter[sectNum - 1]) * 0.5);
-                                art.strokeStyle = "rgb(255,0,0)";
+                                switch (y) {
+                                    case 0:
+                                        art.strokeStyle = "rgb(255,0,0)";
+                                        break;
+                                    case 1:
+                                        art.strokeStyle = "rgb(0,255,0)";
+                                        break;
+                                    case 2:
+                                        art.strokeStyle = "rgb(255,255,0)";
+                                        break;
+                                    case 3:
+                                        art.strokeStyle = "rgb(100,200,0)";
+                                        break;
+                                    case 4:
+                                        art.strokeStyle = "rgb(100,0,150)";
+                                        break;
+                                    case 5:
+                                        art.strokeStyle = "rgb(100,255,255)";
+                                        break;
+                                    case 6:
+                                        art.strokeStyle = "rgb(100,50,100)";
+                                        break;
+                                    case 7:
+                                        art.strokeStyle = "rgb(200,0,200)";
+                                        break;
+                                    case 8:
+                                        art.strokeStyle = "rgb(0,150,200)";
+                                        break;
+                                }
+                                document.getElementById("sectTab").innerHTML += ("<tr><td>" + (y + 1) + "</td><td>" + reachRN[sectNum - 1] + "</td><td></td><td></td><td>" +
+                                    reachFromInv[sectNum - 1] + "</td><td>" + reachToInv[sectNum - 1] + "</td><td>" + xLoc + "</td></tr>");
+                                alert(reachRN[sectNum - 1]);
                                 art.stroke();
                             }
                         }
@@ -123,7 +155,7 @@
         </script>
     </head> 
     <body>
-        <canvas id="space" width="1200" height="200" style="border:1px solid #abc"></canvas>
+        <canvas id="space" width="1200" height="400" style="border:1px solid #abc"></canvas>
         <br>
         <div id="vartest"></div>
         <table border="1">
