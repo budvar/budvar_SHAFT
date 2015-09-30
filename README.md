@@ -7,4 +7,7 @@ canvas_testing.html = canvas/fabric/SVG display options
 
 default.geometry-dc.txt = viewer geometry file
 
-geo_table.html = CURRENT WORKING FILE, external text file read/parse, filling arrays, etc
+
+geo_draw.html = geo_table plus draws skeleton of model elements w/scaled reach dimaters/line-thicknesses
+
+geo_draw2.html = geo_draw, with better scaling and different colored reaches in drawing, better table w/more info included
