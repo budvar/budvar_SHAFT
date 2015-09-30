@@ -6,7 +6,7 @@
             function geoDraw() {
                 //reads in geometry file
                 var geo = new XMLHttpRequest();
-                geo.open("GET", "http://localhost:16628/default.geometry-dc.txt", false);
+                geo.open("GET", "default.geometry-dc.txt", false);
                 geo.send(null);
                 if (geo.readyState == 4 && geo.status == 200) {
                     //discovers length of each block in txt file

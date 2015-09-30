@@ -7,6 +7,7 @@ canvas_testing.html = canvas/fabric/SVG display options
 
 default.geometry-dc.txt = viewer geometry file
 
+geo_table.html = test to make sure geometry file can be read/parsed correctly
 
 geo_draw.html = geo_table plus draws skeleton of model elements w/scaled reach dimaters/line-thicknesses
 
